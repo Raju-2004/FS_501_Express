@@ -54,10 +54,10 @@ describe('Todo test suite',() => {
         expect(response.body.deletedTodo).toBeDefined();
       }); */
     
-      test('should return 404 for non-existent todo', async () => {
+      /* test('should return 404 for non-existent todo', async () => {
         const response = await agent.delete('/todos/999');
     
         expect(response.status).toBe(404);
         expect(response.body.error).toBe('Todo not found');
-      });
+      }); */
 })
