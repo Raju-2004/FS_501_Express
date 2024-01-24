@@ -11,54 +11,59 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User,{
+        foreignKey:'userId'
+      })
     }
-    static async AllTodos() {
-      /* const dueYes = this.overdue();
-      const dueToday = this.dueToday();
-      const dueLater = this.dueLater();
+    static async AllTodos(userId) {
+      const dueYes = await this.overdue(userId);
+      const dueToday = await this.dueToday(userId);
+      const dueLater = await this.dueLater(userId);
       return {
-        dueYes : dueYes.length,
-        dueToday : dueToday.length,
-        dueLater : dueLater.length
-      } */
-      const todos = await Todo.findAll();
-      return todos
+        dueYes : dueYes,
+        dueToday : dueToday,
+        dueLater : dueLater
+      }
     }
-    static addTodo({title,dueDate}) {
-      return this.create({title : title ,dueDate : dueDate,completed:false})
+    static addTodo({title,dueDate,userId}) {
+      return this.create({title : title ,dueDate : dueDate,completed:false,userId})
     }
     markAsCompleted() {
-      return this.update({completed : true})
-    }
-    static async overdue() {
+      const updatedStatus = !this.completed;
+      return this.update({ completed: updatedStatus }).then(updatedTodo => updatedTodo.toJSON());
+  }  
+    static async overdue(userId) {
       const d = new Date();
       const Todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.lt]: d,
           },
+          userId
         },
       });
       return Todos;
     }
-    static async dueToday() {
+    static async dueToday(userId) {
       const d = new Date();
       const Todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.eq]: d,
           },
+          userId
         },
       });
       return Todos;
     }
-    static async dueLater() {
+    static async dueLater(userId) {
       const d = new Date();
       const Todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.gt]: d,
           },
+          userId
         },
       });
       return Todos;

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Document</title>
-    <link rel="stylesheet" href="../public/style.css">
-</head>
-<body>
-    <%- include('header.ejs') %>
-</body>
+    <link rel="stylesheet" href="../public/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="grid grid-cols-6">
+      <div class="col-start-3 col-span-2">
+        <%- include('header.ejs') %>
+        <p class="py-2">Welcome to the Todo Manager</p>
+        <p class="py-2">New here ? <a class="text-green-600" href="/signup">Sign-up now</a> </p>
+        <p class="py-2">Already have an account ? <a class="text-green-600" href="/login">Sign-in</a> </p>
+      </div>
+    </div>
+  </body>
 </html>
